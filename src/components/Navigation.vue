@@ -44,6 +44,7 @@
           class="wfDarkGray--text no-background-hover text-h6 font-weight-light"
           :ripple="false"
           text
+          @click="setCurrentContent('Content')"
         >
           <span>Contact</span>
         </v-btn>
@@ -59,9 +60,15 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Navigation",
-
+  methods: {
+    ...mapActions([
+      "setCurrentContent",
+    ])
+  }
 }
 </script>
 
