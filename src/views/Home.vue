@@ -15,8 +15,8 @@
         <v-card-title class="wfBorder--text text-h1 font-weight-bold mb-n6 pb-0">
           Digital
         </v-card-title>
-        <v-card-title class="wfBorder--text text-h1 font-weight-bold mb-n3 pb-0">
-          Products
+        <v-card-title class="wfBorder--text text-h1 font-weight-bold mb-n3 pb-2">
+          {{ currentHomeView.tagWord }}
         </v-card-title>
         <v-card-title class="wfLighterGray--text text-h2 font-weight-bold pb-0">
           ®2020
@@ -43,23 +43,63 @@
           color="wfBorder"
           width="430px"
           height="620px"
-        />
+        >
         <!-- Contains Card Work -->
+          <component :is="currentHomeView.component"/>
+        </v-card>
       </v-layout>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import Base from "@/components/DynamicHomeComponents.vue/Base.vue";
-import Flaire from "@/components/DynamicHomeComponents.vue/Flaire.vue";
-import WebQI from "@/components/DynamicHomeComponents.vue/WebQI.vue";
+import { mapGetters, mapMutations } from "vuex";
+import Base from "@/components/homeCards/Base.vue";
+import Flaire from "@/components/homeCards/Flaire.vue";
+import WebQI from "@/components/homeCards/WebQI.vue";
+import Contact from "@/components/homeCards/Contact.vue";
 
 export default {
   components: {
     Base,
     Flaire,
-    WebQI
-  }
+    WebQI,
+    Contact
+  },
+  data () {
+    return {
+      homeViews: [
+        { component: "Base", tagWord: "Products" },
+        { component: "Flaire", tagWord: "Apps" },
+        { component: "WebQI", tagWord: "Experiences"},
+        { component: "Contact"}
+      ],
+    }
+  },
+  mounted() {
+    this.setCurrentHomeView(this.homeViews[0])
+  },
+  computed: {
+    ...mapGetters([
+      "currentHomeView"
+    ]),
+    homeControl() {
+      let i = 0;
+      var cycle = setInterval(() => { 
+        if (i === 3) {
+          i = 0;
+        }
+        this.setCurrentHomeView(this.homeViews[i]);
+        console.log(this.currentHomeView);
+        console.log(i)
+        i += 1;
+      }, 2500)
+    },
+  },
+  methods: {
+    ...mapMutations([
+      "setCurrentHomeView"
+    ])
+  },
 }
 </script>

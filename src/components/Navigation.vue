@@ -44,7 +44,7 @@
           class="wfDarkGray--text no-background-hover text-h6 font-weight-light"
           :ripple="false"
           text
-          @click="setCurrentContent('Content')"
+          @click="handleContact"
         >
           <span>Contact</span>
         </v-btn>
@@ -60,14 +60,22 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
   name: "Navigation",
+  data () {
+    return {
+      homeContact: {component: "Contact"}
+    }
+  },
   methods: {
-    ...mapActions([
-      "setCurrentContent",
-    ])
+    ...mapMutations([
+      "setCurrentHomeView"
+    ]),
+    handleContact() {
+      this.setCurrentHomeView(this.homeContact)
+    }
   }
 }
 </script>
