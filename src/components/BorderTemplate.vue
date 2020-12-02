@@ -20,12 +20,23 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Navigation from "@/components/Navigation.vue";
 
 export default {
   name: "BorderTemplate",
   components: {
     Navigation
+  },
+  computed: {
+    ...mapGetters([
+      "currentHomeView",
+    ])
+  },
+  methods: {
+    handleColors() {
+      
+    }
   }
 }
 </script>

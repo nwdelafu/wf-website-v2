@@ -12,6 +12,7 @@ export default new Vuetify({
         wfWhite: "#ECECEC",
         wfDarkGray: "#AFAFAF",
         wfLighterGray: "#808080",
+        wfRed: "#ED7B7B",
       },
     },
   },

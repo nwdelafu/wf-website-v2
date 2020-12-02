@@ -103,7 +103,7 @@ export default {
         }
         this.setCurrentHomeView(this.homeViews[i]);
         i += 1;
-        }, 2500);
+        }, 10000);
     },
   },
   
