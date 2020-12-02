@@ -17,6 +17,7 @@
         to="/" 
         tag="span"
         style="cursor: pointer"
+        @click.native="$router.go()"
         >
           <h1 class="text-h4 font-weight-bold">West&Faring.</h1>
         </router-link>
@@ -60,21 +61,25 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Navigation",
   data () {
-    return {
-      homeContact: {component: "Contact"}
-    }
+    return {}
+  },
+  computed: {
+    ...mapGetters([
+      "currentHomeView",
+      "homeViews",
+    ])
   },
   methods: {
     ...mapMutations([
-      "setCurrentHomeView"
+      "setCurrentHomeView",
     ]),
     handleContact() {
-      this.setCurrentHomeView(this.homeContact)
+      this.setCurrentHomeView(this.homeViews[3]);
     }
   }
 }

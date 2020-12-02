@@ -64,42 +64,49 @@ export default {
     Base,
     Flaire,
     WebQI,
-    Contact
+    Contact,
   },
   data () {
     return {
-      homeViews: [
-        { component: "Base", tagWord: "Products" },
-        { component: "Flaire", tagWord: "Apps" },
-        { component: "WebQI", tagWord: "Experiences"},
-        { component: "Contact"}
-      ],
+      homeCycle: null,
     }
   },
   mounted() {
-    this.setCurrentHomeView(this.homeViews[0])
+    this.setCurrentHomeView(this.homeViews[0]);
+    this.homeControl();
   },
   computed: {
     ...mapGetters([
-      "currentHomeView"
+      "currentHomeView",
+      "homeViews",
     ]),
-    homeControl() {
-      let i = 0;
-      var cycle = setInterval(() => { 
-        if (i === 3) {
-          i = 0;
+  },
+  watch: {
+    currentHomeView: {
+      handler(newView, oldView) {
+        console.log(newView.component)
+        if (newView.component === "Contact") {
+          clearInterval(this.homeCycle);
         }
-        this.setCurrentHomeView(this.homeViews[i]);
-        console.log(this.currentHomeView);
-        console.log(i)
-        i += 1;
-      }, 2500)
-    },
+      }
+    }
   },
   methods: {
     ...mapMutations([
       "setCurrentHomeView"
-    ])
+    ]),
+    homeControl() {
+      let i = 0;
+      this.homeCycle = setInterval(() => { 
+        if (i === 3) {
+          i = 0;
+        }
+        this.setCurrentHomeView(this.homeViews[i]);
+        i += 1;
+        }, 2500);
+    },
   },
+  
+
 }
 </script>
