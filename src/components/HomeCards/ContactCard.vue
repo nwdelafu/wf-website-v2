@@ -19,14 +19,14 @@
         <v-text-field 
           v-model="name"
           :rules="nameRules"
-          label="Name*"
+          label="Name"
           type="text"
           required
         ></v-text-field>
         <v-text-field 
           v-model="email"
           :rules="emailRules"
-          label="Email*"
+          label="Email"
           type="text"
           required
         ></v-text-field>
@@ -37,7 +37,7 @@
         ></v-text-field>
         <v-textarea
           class="mt-13"
-          label="Message*"
+          label="Message"
           :rules="messageRules"
         >
 

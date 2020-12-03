@@ -55,6 +55,5 @@
 <script>
 export default {
   name: "HomeAndContact",
-
-}
+  }
 </script>
