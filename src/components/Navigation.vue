@@ -17,7 +17,6 @@
         to="/" 
         tag="span"
         style="cursor: pointer"
-        @click.native="$router.go()"
         >
           <h1 class="text-h4 font-weight-bold">West&Faring.</h1>
         </router-link>
@@ -45,7 +44,7 @@
           class="wfDarkGray--text no-background-hover text-h6 font-weight-light"
           :ripple="false"
           text
-          @click="handleContact"
+          to="/contact"
         >
           <span>Contact</span>
         </v-btn>
@@ -61,27 +60,9 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "Navigation",
-  data () {
-    return {}
-  },
-  computed: {
-    ...mapGetters([
-      "currentHomeView",
-      "homeViews",
-    ])
-  },
-  methods: {
-    ...mapMutations([
-      "setCurrentHomeView",
-    ]),
-    handleContact() {
-      this.setCurrentHomeView(this.homeViews[3]);
-    }
-  }
 }
 </script>
 

@@ -1,70 +1,34 @@
 <template>
-  <v-row>
-    <v-col>
-      <v-card 
-        class="pt-16 pr-5"
-        color="transparent"
-        flat
-      >
-        <v-card-title class="wfBorder--text text-h1 font-weight-bold mb-n6 pb-0 mt-3">
-          We
-        </v-card-title>
-        <v-card-title class="wfBorder--text text-h1 font-weight-bold mb-n6 pb-0">
-          Build
-        </v-card-title>
-        <v-card-title class="wfBorder--text text-h1 font-weight-bold mb-n6 pb-0">
-          Digital
-        </v-card-title>
-        <v-card-title class="wfBorder--text text-h1 font-weight-bold mb-n3 pb-2">
+  <border-template>
+    <template v-slot:Content>
+      <home-and-contact>
+        <template v-slot:tagWord>
           {{ currentHomeView.tagWord }}
-        </v-card-title>
-        <v-card-title class="wfLighterGray--text text-h2 font-weight-bold pb-0">
-          ®2020
-        </v-card-title>
-        <v-layout class="mr-16">
-          <v-card-text class="text-end text-h5 mr-3">
-            <span class="wfBorder--text font-weight-regular">BRANDING</span>
-            <span class="wfDarkGray--text font-weight-regular">STRATEGY</span> 
-            <br/>
-            <span class="wfBorder--text font-weight-regular">UX + UI</span>
-            <span class="wfDarkGray--text font-weight-regular">DEVELOPMENT</span>
-          </v-card-text>
-          <v-divider 
-            color="#808080" 
-            vertical
-          />
-        </v-layout>
-      </v-card>
-    </v-col>
-    <v-col>
-      <v-layout justify-center align-center>
-        <v-card
-          class="rounded-xl mt-10"
-          color="wfBorder"
-          width="430px"
-          height="620px"
-        >
-        <!-- Contains Card Work -->
-          <component :is="currentHomeView.component"/>
-        </v-card>
-      </v-layout>
-    </v-col>
-  </v-row>
+        </template>
+        <template v-slot:CardContent>
+          <component :is="currentHomeView.component" />
+        </template>
+      </home-and-contact>
+    </template>
+  </border-template>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import Base from "@/components/homeCards/Base.vue";
-import Flaire from "@/components/homeCards/Flaire.vue";
-import WebQI from "@/components/homeCards/WebQI.vue";
-import Contact from "@/components/homeCards/Contact.vue";
+import BorderTemplate from "@/components/BorderTemplate.vue";
+import HomeAndContact from "@/components/HomeAndContact.vue";
+import BaseCard from "@/components/HomeCards/BaseCard.vue";
+import FlaireCard from "@/components/HomeCards/FlaireCard.vue";
+import WebQICard from "@/components/HomeCards/WebQICard.vue";
 
 export default {
   components: {
-    Base,
-    Flaire,
-    WebQI,
-    Contact,
+    HomeAndContact,
+    BorderTemplate,
+    BaseCard,
+    FlaireCard,
+    WebQICard,
+    HomeAndContact,
   },
   data () {
     return {
@@ -79,13 +43,13 @@ export default {
     ...mapGetters([
       "currentHomeView",
       "homeViews",
+      "onHome"
     ]),
   },
   watch: {
     currentHomeView: {
-      handler(newView, oldView) {
-        console.log(newView.component)
-        if (newView.component === "Contact") {
+      handler(newView) {
+        if (newView.component === "Contact") {  
           clearInterval(this.homeCycle);
         }
       }
@@ -93,7 +57,8 @@ export default {
   },
   methods: {
     ...mapMutations([
-      "setCurrentHomeView"
+      "setCurrentHomeView",
+      "setOnHome",
     ]),
     homeControl() {
       let i = 0;
@@ -103,10 +68,21 @@ export default {
         }
         this.setCurrentHomeView(this.homeViews[i]);
         i += 1;
-        }, 10000);
+      }, 5000);
     },
+    leaving () {
+      this.setOnHome(false);
+      console.log(this.onHome)
+    }
   },
-  
-
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.setOnHome(true);
+    });
+  },
+  beforeRouteLeave (to, from, next) {
+    this.setOnHome(false);
+    next();
+  }
 }
 </script>

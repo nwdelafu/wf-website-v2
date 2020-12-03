@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: "Base",
+  name: "BaseCard",
 }
 </script>

@@ -1,20 +1,20 @@
 <template>
   <v-card
-    class="pa-6"
+    class="pa-6 rounded-0"
     flat
-    color="wfBorder"
+    :color="onHome ? borderColor : 'wfBorder'"
     width="100%"
     height="100%"
   >
     <v-card
       class="rounded-xl py-10 px-16"
       flat
-      color="wfBackground"
+      :color="onHome ? backgroundColor : 'wfBackground'"
       height="100%"
       width="100%"
     >
       <navigation />
-      <router-view/>
+      <slot name="Content"/>
     </v-card>
   </v-card>
 </template>
@@ -25,17 +25,35 @@ import Navigation from "@/components/Navigation.vue";
 
 export default {
   name: "BorderTemplate",
+  data() {
+    return {
+      backgroundColor: this.$vuetify.theme.themes.light.wfBackground,
+      borderColor: this.$vuetify.theme.themes.light.wfBorder,
+    }
+  },
   components: {
-    Navigation
+    Navigation,
   },
   computed: {
     ...mapGetters([
       "currentHomeView",
-    ])
+      "onHome"
+    ]),
   },
-  methods: {
-    handleColors() {
-      
+  watch: {
+    currentHomeView: {
+      handler(newView) {
+        if (newView.component === "FlaireCard") {
+          this.backgroundColor = this.$vuetify.theme.themes.light.flaireBackground
+          this.borderColor = this.$vuetify.theme.themes.light.flaireBorder
+        } else if (newView.component === "WebQICard") {
+          this.backgroundColor = this.$vuetify.theme.themes.light.webQIBackground
+          this.borderColor = this.$vuetify.theme.themes.light.webQIBorder
+        } else {
+          this.backgroundColor = this.$vuetify.theme.themes.light.wfBackground
+          this.borderColor = this.$vuetify.theme.themes.light.wfBorder
+        }
+      }
     }
   }
 }
